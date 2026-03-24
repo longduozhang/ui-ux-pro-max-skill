@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeoPulse | AI 产品设计师个人简介</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #060916;
+      --surface: rgba(12, 18, 36, 0.7);
+      --surface-strong: rgba(15, 24, 48, 0.95);
+      --text: #e7eeff;
+      --muted: #9eb3d6;
+      --primary: #4cc9ff;
+      --accent: #8b5cf6;
+      --line: rgba(127, 171, 255, 0.22);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --shadow: 0 24px 60px rgba(46, 90, 255, 0.25);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% -10%, rgba(76, 201, 255, 0.28), transparent 40%),
+        radial-gradient(circle at 88% 12%, rgba(139, 92, 246, 0.24), transparent 42%),
+        linear-gradient(160deg, #05070f 0%, #060916 45%, #090f24 100%);
+      min-height: 100vh;
+      line-height: 1.6;
+      letter-spacing: 0.01em;
+    }
+
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(151, 183, 255, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(151, 183, 255, 0.08) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(circle at center, black, transparent 85%);
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(1120px, 92vw);
+      margin: 0 auto;
+      padding: 28px 0 64px;
+    }
+
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      padding: 12px 20px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 24px rgba(6, 10, 25, 0.6);
+    }
+
+    .logo {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      color: #d9e8ff;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      list-style: none;
+      font-size: 0.92rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--primary);
+      outline: none;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-main {
+      padding: 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(76, 201, 255, 0.24), transparent 65%);
+      right: -80px;
+      top: -120px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(76, 201, 255, 0.45);
+      border-radius: 999px;
+      color: #caf2ff;
+      background: rgba(76, 201, 255, 0.1);
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: "Orbitron", sans-serif;
+      font-size: clamp(1.9rem, 2.6vw, 2.8rem);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 58ch;
+    }
+
+    .hero-actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 12px;
+      padding: 10px 16px;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), #5cf0f8 60%, #7db7ff);
+      color: #021018;
+      box-shadow: 0 10px 24px rgba(76, 201, 255, 0.35);
+    }
+
+    .btn.secondary {
+      color: #dfe9ff;
+      border-color: rgba(127, 171, 255, 0.4);
+      background: rgba(127, 171, 255, 0.08);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .hero-side {
+      padding: 30px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .metric {
+      background: rgba(8, 14, 31, 0.8);
+      border: 1px solid rgba(131, 163, 255, 0.24);
+      border-radius: var(--radius-md);
+      padding: 16px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.35rem;
+      margin-bottom: 4px;
+      color: #d2f4ff;
+    }
+
+    .section {
+      margin-top: 24px;
+    }
+
+    .section h2 {
+      font-family: "Orbitron", sans-serif;
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+      color: #d5e4ff;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      background: var(--surface-strong);
+      border: 1px solid rgba(122, 163, 255, 0.24);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .media-slot {
+      aspect-ratio: 16 / 9;
+      background:
+        linear-gradient(145deg, rgba(76, 201, 255, 0.22), rgba(139, 92, 246, 0.2)),
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.06) 0 10px, transparent 10px 20px);
+      border-bottom: 1px solid rgba(127, 171, 255, 0.22);
+      display: grid;
+      place-items: center;
+      color: #e6f4ff;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .project-body {
+      padding: 14px;
+    }
+
+    .project-body h3 {
+      font-size: 1rem;
+      margin-bottom: 6px;
+      color: #eef5ff;
+    }
+
+    .project-body p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .tips {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      background: rgba(10, 18, 36, 0.78);
+      border: 1px dashed rgba(76, 201, 255, 0.4);
+      color: #c8d8f5;
+      font-size: 0.9rem;
+    }
+
+    .tips code {
+      color: #8fe7ff;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      color: #8da6d2;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .projects {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-nav {
+        border-radius: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .projects {
+        grid-template-columns: 1fr;
+      }
+      .hero-main,
+      .hero-side {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <main class="container">
+    <nav class="top-nav" aria-label="站点导航">
+      <div class="logo">NeoPulse / Profile</div>
+      <ul class="nav-links">
+        <li><a href="#about">关于我</a></li>
+        <li><a href="#projects">AI 产品</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero" id="about">
+      <article class="panel hero-main">
+        <span class="badge">● AI Product Builder / 科技内容创作者</span>
+        <h1>你好，我是 Alex。<br />专注 AI 产品设计与增长实验。</h1>
+        <p>
+          我会把复杂的 AI 能力做成“普通人也能直接用”的产品体验。
+          这个页面采用科技感视觉风格，后续你可以直接替换项目卡片里的图片、视频和文案，快速搭建自己的作品展示站。
+        </p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#projects">查看我的产品演示</a>
+          <a class="btn secondary" href="#contact">预约交流 / 合作</a>
+        </div>
+      </article>
+
+      <aside class="panel hero-side" aria-label="关键数据">
+        <div class="metric">
+          <strong>12+</strong>
+          <span>上线 AI 工具</span>
+        </div>
+        <div class="metric">
+          <strong>100K+</strong>
+          <span>累计用户访问</span>
+        </div>
+        <div class="metric">
+          <strong>35%</strong>
+          <span>平均转化提升</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="section" id="projects">
+      <h2>AI 产品展示区（可直接替换）</h2>
+      <div class="projects">
+        <article class="project-card">
+          <div class="media-slot">替换为产品截图<br />image-1.jpg</div>
+          <div class="project-body">
+            <h3>AI 视频脚本生成器</h3>
+            <p>输入主题自动生成分镜脚本、旁白和封面文案，适合短视频内容创作。</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="media-slot">替换为演示视频<br />demo-2.mp4</div>
+          <div class="project-body">
+            <h3>多模态客服助手</h3>
+            <p>支持文本+图片问答，帮助电商与SaaS团队快速搭建智能支持系统。</p>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <div class="media-slot">替换为产品截图<br />image-3.png</div>
+          <div class="project-body">
+            <h3>智能仪表盘 Copilot</h3>
+            <p>自动生成运营洞察与每周策略建议，减少手动分析时间。</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="tips">
+        快速替换素材建议：把你的图片/视频放进同目录，修改卡片中的占位区即可。<br />
+        图片：使用 <code>&lt;img src="./你的图.png" alt="项目图" /&gt;</code><br />
+        视频：使用 <code>&lt;video src="./你的视频.mp4" controls muted loop&gt;&lt;/video&gt;</code>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>联系方式</h2>
+      <article class="panel" style="padding: 22px;">
+        <p>邮箱：hello@yourdomain.com</p>
+        <p>微信 / X / GitHub：@yourhandle</p>
+      </article>
+    </section>
+
+    <footer class="footer">© 2026 NeoPulse. Built with futuristic vibes.</footer>
+  </main>
+</body>
+</html>
